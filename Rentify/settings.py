@@ -27,11 +27,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("ENVIRONMENT") =='development'
+DEBUG = os.getenv("ENVIRONMENT") == "development"
 
-ALLOWED_HOSTS = ['rentify-production.up.railway.app', 'localhost', 'http://127.0.0.1:8000/']
+ALLOWED_HOSTS = [
+    "rentify-production.up.railway.app",
+    "localhost",
+    "http://127.0.0.1:8000/",
+]
 
-CSRF_TRUSTED_ORIGINS = ['https://rentify-production.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ["https://rentify-production.up.railway.app"]
 # Application definition
 
 INSTALLED_APPS = [
@@ -72,9 +76,9 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv('EMAIL_ADDRESS')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_ADDRESS')
+EMAIL_HOST_USER = os.getenv("EMAIL_ADDRESS")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_ADDRESS")
 
 
 ROOT_URLCONF = "Rentify.urls"
@@ -158,7 +162,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
-STATIC_ROOT = '/staticfiles/'
+
+STATIC_ROOT = "/staticfiles/"
 
 
 MEDIA_URL = "media/"
