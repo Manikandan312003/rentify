@@ -29,9 +29,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("ENVIRONMENT") =='development'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rentify-production.up.railway.app', 'localhost', 'http://127.0.0.1:8000/']
 
-
+CSRF_TRUSTED_ORIGINS = ['https://rentify-production.up.railway.app']
 # Application definition
 
 INSTALLED_APPS = [
