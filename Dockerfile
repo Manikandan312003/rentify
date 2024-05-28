@@ -8,6 +8,10 @@ ENV PYTHONUNBUFFERED 1
 # Set working directory in the container
 WORKDIR /app
 
+# Copy the wait-for-it script
+COPY wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+
 # Install dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
