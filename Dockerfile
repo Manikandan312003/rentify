@@ -18,12 +18,12 @@ COPY . /app/
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Expose the port on which your Django app will run
-EXPOSE 8000
-
 # Add a script to wait for the DB to be ready before starting the server
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
+
+# Expose the port on which your Django app will run
+EXPOSE 8000
 
 # Command to run the Django development server
 CMD ["/app/start-server.sh"]
