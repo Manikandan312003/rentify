@@ -8,16 +8,9 @@ ENV PYTHONUNBUFFERED 1
 # Set working directory in the container
 WORKDIR /app
 
-# Copy the wait-for-it script
-COPY wait-for-it.sh /app/wait-for-it.sh
-RUN chmod +x /app/wait-for-it.sh
-
 # Install dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Install Gunicorn
-RUN pip install gunicorn
 
 # Copy the Django project code into the container
 COPY . /app/
@@ -25,12 +18,5 @@ COPY . /app/
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Add execute permissions to the start-server.sh script
-COPY start-server.sh /app/start-server.sh
-RUN chmod +x /app/start-server.sh
-
-# Expose the port on which your Django app will run
-EXPOSE 8000
-
 # Command to run the server
-CMD ["./start-server.sh"]
+CMD sh -c 'echo "Waiting for PostgreSQL to be ready..." && /wait-for-it.sh $DATABASE_HOST:$DATABASE_PORT --timeout=60 --strict && echo "PostgreSQL is up - executing command" && python manage.py migrate && echo "Applying database migrations..." && exec gunicorn Rentify.wsgi:application --bind 0.0.0.0:8000'
