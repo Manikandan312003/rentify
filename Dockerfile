@@ -15,23 +15,20 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the Django project code into the container
 COPY . /app/
 
-# Download and make wait-for-it.sh executable
-RUN apt-get update && apt-get install -y curl && \
-    curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
-    chmod +x wait-for-it.sh && \
-    apt-get remove -y curl && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy start-server.sh and make it executable
-COPY start-server.sh /app/start-server.sh
-RUN chmod +x /app/start-server.sh
-
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
-# Create log file
-RUN touch /app/start-server.log
+# Add a script to wait for the DB to be ready before starting the server
+COPY wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
 
-# Command to run the server
-CMD ["./start-server.sh"]
+# Add the start-server.sh script and make it executable
+COPY start-server.sh /app/start-server.sh
+RUN chmod +x /app/start-server.sh
+
+# Expose the port on which your Django app will run
+EXPOSE 8000
+
+# Command to run the Django development server
+CMD ["gunicorn Rentify.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
