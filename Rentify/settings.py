@@ -33,7 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "rentify-production.up.railway.app",
     "localhost",
-    "http://127.0.0.1:8000/",
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = ["https://rentify-production.up.railway.app"]
