@@ -23,6 +23,10 @@ RUN apt-get update && apt-get install -y curl && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 
+# Copy start-server.sh and make it executable
+COPY start-server.sh /app/start-server.sh
+RUN chmod +x /app/start-server.sh
+
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
