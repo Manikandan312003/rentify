@@ -22,6 +22,10 @@ RUN python manage.py collectstatic --noinput
 COPY wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 
+# Add the start-server.sh script and make it executable
+COPY start-server.sh /app/start-server.sh
+RUN chmod +x /app/start-server.sh
+
 # Expose the port on which your Django app will run
 EXPOSE 8000
 
