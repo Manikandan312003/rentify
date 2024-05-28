@@ -18,6 +18,10 @@ COPY . /app/
 # Collect static files
 RUN python manage.py collectstatic --noinput
 
+# Add execute permissions to the start-server.sh script
+COPY start-server.sh /app/start-server.sh
+RUN chmod +x /app/start-server.sh
+
 # Expose the port on which your Django app will run
 EXPOSE 8000
 
