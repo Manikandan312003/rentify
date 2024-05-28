@@ -27,7 +27,7 @@ COPY start-server.sh /app/start-server.sh
 RUN chmod +x /app/start-server.sh
 
 # Expose the port on which your Django app will run
+EXPOSE 8000
 
 # Command to run the Django development server
-EXPOSE 8000
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
