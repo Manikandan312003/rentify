@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Log to a file
 LOGFILE=/app/start-server.log
