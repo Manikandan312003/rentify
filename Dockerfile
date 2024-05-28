@@ -16,6 +16,9 @@ RUN chmod +x /app/wait-for-it.sh
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Install Gunicorn
+RUN pip install gunicorn
+
 # Copy the Django project code into the container
 COPY . /app/
 
