@@ -33,7 +33,7 @@ class PropertySerializer(ModelSerializer):
 
     def to_internal_value(self, data):
         print(data)
-        nearbyValues = data.pop("nearby")
+        nearbyValues = data.pop("nearby", [])
         instance = super().to_internal_value(data)
         nearbyObjs = []
         for nearby in nearbyValues:
