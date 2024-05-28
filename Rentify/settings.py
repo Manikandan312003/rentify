@@ -31,9 +31,7 @@ DEBUG = os.getenv("ENVIRONMENT") == "development"
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "rentify-production.up.railway.app",
-    "localhost",
-    "127.0.0.1",
+    "*"
 ]
 
 CSRF_TRUSTED_ORIGINS = ["https://rentify-production.up.railway.app"]
