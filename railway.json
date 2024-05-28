@@ -4,7 +4,7 @@
         "builder": "NIXPACKS"
     },
     "deploy": {
-        "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver --bind 0.0.0.0:8000 | tee -a $LOGFILE",
+        "startCommand": "python manage.py migrate && python manage.py collectstatic --noinput && python manage.py runserver --bind 0.0.0.0:8000",
         "restartPolicyType": "ON_FAILURE",
         "restartPolicyMaxRetries": 10
     }
