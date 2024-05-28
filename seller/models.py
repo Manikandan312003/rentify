@@ -11,6 +11,9 @@ class NearbyPlaces(models.Model):
     def __str__(self) -> str:
         return f"{self.type} {self.name} at {self.location}"
 
+    def __repr__(self) -> str:
+        return f"{self.type} {self.name} at {self.location}"
+
 
 class Property(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)

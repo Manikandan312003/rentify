@@ -12,15 +12,26 @@ from seller.models import *
 import django_filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import BasePagination
 
 from user.permissions import IsOwnerOrAdminOrReadOnlyPropertyPermission
 
+class NoPagination(BasePagination):
+    """
+    A custom pagination class that does nothing, effectively disabling pagination.
+    """
+    def paginate_queryset(self, queryset, request, view=None):
+        return None
+
+    def get_paginated_response(self, data):
+        return data
 
 class NearByPlaceViewSet(ModelViewSet):
     serializer_class = NearbyPlacesSerializer
     queryset = NearbyPlaces.objects.all()
+    pagination_class = NoPagination
 
-
+import json
 class PropertyViewSet(ModelViewSet):
     serializer_class = PropertySerializer
     queryset = Property.objects.all()
@@ -36,6 +47,18 @@ class PropertyViewSet(ModelViewSet):
         request.data["profile"] = request.user.profile.id
         return super().create(request, *args, **kwargs)
 
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        data = request.data.copy()
+        data['nearby'] = request.data.getlist('nearby')
+        s = PropertySerializer(instance=instance, data=data, partial=partial)
+        if s.is_valid():
+            s.save()
+        print(request.data.getlist('nearby'))
+        return Response(s.data)
+
+    
 
 class Likes(APIView):
     def post(self, request):
