@@ -1,2 +1,36 @@
-curl -o wait-for-it.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh
-chmod +x wait-for-it.sh
+# Use the official Python image as base
+FROM python:3.8
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# Set working directory in the container
+WORKDIR /app
+
+# Copy the wait-for-it script
+COPY wait-for-it.sh /app/wait-for-it.sh
+RUN chmod +x /app/wait-for-it.sh
+
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Install Gunicorn
+RUN pip install gunicorn
+
+# Copy the Django project code into the container
+COPY . /app/
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
+
+# Add execute permissions to the start-server.sh script
+COPY start-server.sh /app/start-server.sh
+RUN chmod +x /app/start-server.sh
+
+# Expose the port on which your Django app will run
+EXPOSE 8000
+
+# Command to run the server
+CMD ["./start-server.sh"]
