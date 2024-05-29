@@ -12,29 +12,31 @@ class NearbyPlacesSerializer(ModelSerializer):
 
 
 class PropertySerializer(ModelSerializer):
-    nearby = NearbyPlacesSerializer(many=True)
+    nearby = NearbyPlacesSerializer(required=False, many=True)
 
     class Meta:
         model = Property
         fields = "__all__"
 
     def validate(self, attrs):
-        print(attrs)
-        nearbyids = self.initial_data.get('nearby', [])
-        self.nearby = NearbyPlaces.objects.filter(id__in=nearbyids)
-        print(self.nearby)
+        nearby_ids = self.initial_data.get('nearby', [])
+        nearby = NearbyPlaces.objects.filter(id__in=nearby_ids)
+        attrs['nearby'] = nearby
         return super().validate(attrs)
 
     def create(self, validated_data):
-        validated_data.pop('nearby', [])
-        instance = super().create(validated_data= validated_data)
-        instance.nearby = self.nearby
+        nearbys = validated_data.pop('nearby', [])
+        instance = super().create(validated_data=validated_data)
+        for nearby in nearbys:
+            instance.nearby.add(nearby)
+        instance.save()
+        return instance
 
     def update(self, instance, validated_data):
+        nearbys = validated_data.pop('nearby', [])
         instance = super().update(instance=instance, validated_data=validated_data)
         instance.nearby.clear()
-        for nearby in self.nearby:
+        for nearby in nearbys:
             instance.nearby.add(nearby)
-            print(instance.nearby)
         instance.save()
         return instance

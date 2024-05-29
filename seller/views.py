@@ -44,8 +44,14 @@ class PropertyViewSet(ModelViewSet):
     filterset_class = PropertyFilter
 
     def create(self, request, *args, **kwargs):
-        request.data["profile"] = request.user.profile.id
-        return super().create(request, *args, **kwargs)
+        data = request.data.copy()
+        data["profile"] = request.user.profile.id
+        data['nearby'] = request.data.getlist('nearby', [])
+        s = PropertySerializer(data=data)
+        if s.is_valid():
+            s.save()
+            return Response(s.data)
+        return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop('partial', False)
