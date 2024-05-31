@@ -71,9 +71,6 @@ class Likes(APIView):
         property = request.data["property"]
         try:
             Like.objects.create(property_id=property, profile=request.user.profile)
-            property = Property.objects.get(id=property)
-            property.no_of_likes += 1
-            property.save()
             return Response()
         except IntegrityError:
             return Response("Already liked in", status=status.HTTP_400_BAD_REQUEST)
