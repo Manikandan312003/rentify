@@ -13,6 +13,7 @@ class NearbyPlacesSerializer(ModelSerializer):
 
 class PropertySerializer(ModelSerializer):
     nearby = NearbyPlacesSerializer(required=False, many=True)
+    no_of_likes = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Property

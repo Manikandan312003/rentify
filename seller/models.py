@@ -34,6 +34,7 @@ class Property(models.Model):
     no_of_bathrooms = models.IntegerField(default=0, blank=True, validators= [validators.MinValueValidator(0, 'No of Bathrooms Must be positive')])
     no_of_floor = models.IntegerField(default=1, blank=True, validators= [validators.MinValueValidator(0, 'No of Floor Must be positive')])
     no_of_likes = models.IntegerField(default=0, blank=True, validators=[validators.MinValueValidator(0, 'No of likes Must be positive')])
+    url = models.URLField(null= True, blank=True)
     nearby = models.ManyToManyField(NearbyPlaces)
 
     def __str__(self) -> str:
@@ -62,6 +63,7 @@ class Interested(models.Model):
 
     class Meta:
         unique_together = ["property", "profile"]
+        verbose_name_plural = "Interested"
 
     def __str__(self) -> str:
         return f"{self.property} {self.profile}"
@@ -73,14 +75,12 @@ from django.dispatch import receiver
 
 @receiver(post_delete, sender=Like)
 def deleteLikeCount(sender, instance: Like, using, **kwargs):
-    print(kwargs)
     instance.property.no_of_likes -= 1
     instance.property.save()
 
 
 @receiver(post_save, sender=Like)
 def addLikeCount(sender, instance: Like, using, **kwargs):
-    print(kwargs)
     if kwargs.get("created"):
         instance.property.no_of_likes += 1
         instance.property.save()
