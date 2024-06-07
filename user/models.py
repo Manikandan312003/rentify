@@ -14,7 +14,7 @@ class Profile(models.Model):
     number = models.CharField(max_length=20, blank=True)
 
     def __str__(self) -> str:
-        return f"{self.name} {self.id}"
+        return f"{self.name}"
 
     def getDetail(self):
         return f"""
