@@ -63,6 +63,7 @@ class Interested(models.Model):
 
     class Meta:
         unique_together = ["property", "profile"]
+        verbose_name_plural = "Interested"
 
     def __str__(self) -> str:
         return f"{self.property} {self.profile}"
@@ -74,14 +75,12 @@ from django.dispatch import receiver
 
 @receiver(post_delete, sender=Like)
 def deleteLikeCount(sender, instance: Like, using, **kwargs):
-    print(kwargs)
     instance.property.no_of_likes -= 1
     instance.property.save()
 
 
 @receiver(post_save, sender=Like)
 def addLikeCount(sender, instance: Like, using, **kwargs):
-    print(kwargs)
     if kwargs.get("created"):
         instance.property.no_of_likes += 1
         instance.property.save()
