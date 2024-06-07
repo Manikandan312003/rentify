@@ -61,8 +61,8 @@ class PropertyViewSet(ModelViewSet):
         s = PropertySerializer(instance=instance, data=data, partial=partial)
         if s.is_valid():
             s.save()
-        print(request.data.getlist('nearby'))
-        return Response(s.data)
+            return Response(s.data)
+        return Response(s.errors, status=status.HTTP_400_BAD_REQUEST)
 
     
 

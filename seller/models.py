@@ -34,6 +34,7 @@ class Property(models.Model):
     no_of_bathrooms = models.IntegerField(default=0, blank=True, validators= [validators.MinValueValidator(0, 'No of Bathrooms Must be positive')])
     no_of_floor = models.IntegerField(default=1, blank=True, validators= [validators.MinValueValidator(0, 'No of Floor Must be positive')])
     no_of_likes = models.IntegerField(default=0, blank=True, validators=[validators.MinValueValidator(0, 'No of likes Must be positive')])
+    url = models.URLField(null= True, blank=True)
     nearby = models.ManyToManyField(NearbyPlaces)
 
     def __str__(self) -> str:
