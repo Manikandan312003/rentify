@@ -17,6 +17,7 @@ COPY . /app/
 
 # Collect static files
 RUN python manage.py collectstatic --noinput
+RUN python manage.py migrate
 
 # Add a script to wait for the DB to be ready before starting the server
 COPY wait-for-it.sh /wait-for-it.sh

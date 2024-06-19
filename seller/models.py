@@ -12,10 +12,10 @@ class NearbyPlaces(models.Model):
     location = models.CharField(max_length=50, default="")
 
     def __str__(self) -> str:
-        return f"{self.type} {self.name} at {self.location}"
+        return f"{self.name.capitalize()}({self.type.capitalize()}) at {self.location.capitalize()}"
 
     def __repr__(self) -> str:
-        return f"{self.type} {self.name} at {self.location}"
+        return f"{self.name.capitalize()}({self.type.capitalize()}) at {self.location.capitalize()}"
 
     class Meta:
         verbose_name_plural = "NearbyPlaces"
