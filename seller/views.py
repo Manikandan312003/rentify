@@ -44,7 +44,7 @@ class PropertyViewSet(ModelViewSet):
     filterset_class = PropertyFilter
 
     def create(self, request, *args, **kwargs):
-        data = request.data.copy()
+        data = request.data
         data["profile"] = request.user.profile.id
         data['nearby'] = request.data.getlist('nearby', [])
         s = PropertySerializer(data=data)
